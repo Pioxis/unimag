@@ -13,9 +13,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'UniMag',
-      theme: ThemeData.dark(
-        useMaterial3: true
+      darkTheme: ThemeData.dark(
+        useMaterial3: true,
       ),
+      theme: ThemeData.light(
+        useMaterial3: true,
+      ),
+      themeMode: ThemeMode.system,
       home: const Homepage(),
     );
   }
