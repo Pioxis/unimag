@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import './widgets/transaction_list.dart';
 
-import './transaction.dart';
-
-
+import 'models/transaction.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -11,6 +9,9 @@ class Homepage extends StatefulWidget {
   @override
   State<Homepage> createState() => _HomepageState();
 }
+
+final titleInput = TextEditingController();
+final amountInput = TextEditingController();
 
 class _HomepageState extends State<Homepage> {
   final List<Transaction> transactions = [
@@ -41,35 +42,59 @@ class _HomepageState extends State<Homepage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Container(
+          const SizedBox(
             width: double.infinity,
             height: 50,
-            child: const Card(
+            child: Card(
               color: Colors.red,
               child: Center(child: Text('CHART')),
             ),
           ),
-          Column(
-            children: transactions.map((tx) {
-              return ListTile(
-                title: Text(tx.title),
-                subtitle: Text(DateFormat('dd.MM.y | HH:mm:ss').format(tx.date)),
-                leading: Column(
-                  children: <Widget>[
-                    const Icon(
-                      Icons.monetization_on_outlined,
-                      color: Colors.green,
-                    ),
-                    Text(
-                      tx.amount.toString(),
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
+          Card(
+            margin: const EdgeInsets.all(30),
+            child: TextField(
+              decoration: const InputDecoration(
+                labelText: "Title",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5),
+                  ),
                 ),
-                isThreeLine: true,
-              );
-            }).toList(),
-          )
+              ),
+              controller: titleInput,
+              //onChanged: (value) => titleInput = value,
+              //dodawanie tekstu z pola tekstowego do zmiennej i później
+              //wypisywanie tego tekstu za pomocą debugPrinta w przycisku
+            ),
+          ),
+          Card(
+            margin: const EdgeInsets.all(30),
+            child: TextField(
+              decoration: const InputDecoration(
+                labelText: "Amount",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5),
+                  ),
+                ),
+              ),
+              controller: amountInput,
+              //onChanged: (value) => titleInput = value,
+              //dodawanie tekstu z pola tekstowego do zmiennej i później
+              //wypisywanie tego tekstu za pomocą debugPrinta w przycisku
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.all(5),
+            alignment: Alignment.centerRight,
+            child: ElevatedButton(
+              onPressed: () {
+                debugPrint('${titleInput.text}\n${amountInput.text}'); //wypisywanie tekstu z FieldTextu
+              },
+              child: const Text("Dodaj"),
+            ),
+          ),
+          TransactionList(),
         ],
       ),
     );
